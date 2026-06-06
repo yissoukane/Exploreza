@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exploreza — Discover Agadir</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8973A;
+  --gold-light: #E8C97A;
+  --gold-pale: #FBF5E8;
+  --teal: #0B6E6E;
+  --teal-mid: #178080;
+  --teal-light: #E6F4F4;
+  --night: #0F1C1C;
+  --dark: #1A2E2E;
+  --text: #1E2A2A;
+  --muted: #6A7A7A;
+  --border: #E0EBEB;
+  --white: #FDFEFE;
+  --red: #C0392B;
+  --green: #1E8449;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;height:68px;background:rgba(15,28,28,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,151,58,0.15);}
+.logo{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--gold);letter-spacing:.02em;text-decoration:none;}
+.logo span{color:white;font-style:italic;}
+.nav-center{display:flex;gap:2rem;list-style:none;}
+.nav-center a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;transition:color .25s;}
+.nav-center a:hover{color:var(--gold);}
+.nav-right{display:flex;gap:.8rem;align-items:center;}
+.btn-ghost{border:1px solid rgba(255,255,255,0.25);color:white;padding:.45rem 1.2rem;font-size:.8rem;font-weight:500;cursor:pointer;background:transparent;font-family:'DM Sans',sans-serif;transition:all .25s;text-decoration:none;display:inline-block;letter-spacing:.05em;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.btn-gold{background:var(--gold);color:var(--night);padding:.5rem 1.4rem;font-size:.8rem;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .25s;}
+.btn-gold:hover{background:var(--gold-light);}
+
+/* ─── LANGUAGE BAR ─── */
+.lang-bar{position:fixed;top:68px;left:0;right:0;z-index:199;background:var(--dark);display:flex;justify-content:flex-end;padding:.35rem 4rem;gap:1rem;}
+.lang-btn{background:transparent;border:none;color:rgba(255,255,255,0.45);font-size:.75rem;letter-spacing:.1em;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s;text-transform:uppercase;}
+.lang-btn.active,.lang-btn:hover{color:var(--gold);}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;padding-top:100px;background:linear-gradient(160deg,rgba(15,28,28,.85) 0%,rgba(15,28,28,.5) 60%,rgba(15,28,28,.8) 100%),url('https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=1800&q=80') center/cover no-repeat;display:flex;flex-direction:column;justify-content:center;padding-left:8%;padding-right:8%;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(200,151,58,.5);color:var(--gold);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1rem;margin-bottom:1.6rem;width:fit-content;animation:up .7s .1s both;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,6vw,5.5rem);color:white;line-height:1.08;max-width:700px;animation:up .7s .2s both;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{color:rgba(255,255,255,.75);font-size:1.05rem;font-weight:300;max-width:480px;line-height:1.75;margin:1.4rem 0 2.2rem;animation:up .7s .3s both;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:up .7s .4s both;}
+.btn-primary{background:var(--gold);color:var(--night);padding:.85rem 2.2rem;font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block;transition:all .25s;}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-secondary{border:1px solid rgba(255,255,255,.5);color:white;padding:.85rem 2.2rem;font-size:.88rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block;transition:all .25s;background:transparent;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+
+/* search bar */
+.hero-search{position:absolute;bottom:0;left:0;right:0;background:white;display:flex;box-shadow:0 -4px 30px rgba(0,0,0,.15);animation:up .7s .5s both;}
+.search-field{flex:1;display:flex;flex-direction:column;padding:1rem 2rem;border-right:1px solid var(--border);}
+.search-field label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem;}
+.search-field input,.search-field select{border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text);background:transparent;}
+.search-submit{background:var(--teal);color:white;border:none;padding:0 2.5rem;font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .25s;}
+.search-submit:hover{background:var(--teal-mid);}
+
+@keyframes up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+/* ─── STATS ─── */
+.stats{background:var(--night);display:flex;justify-content:center;flex-wrap:wrap;}
+.stat{padding:1.8rem 3rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--gold);}
+.stat-l{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.25rem;}
+
+/* ─── SECTIONS ─── */
+section{padding:5rem 8%;}
+.sec-label{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.2;color:var(--night);}
+.sec-title em{color:var(--teal);font-style:italic;}
+.sec-sub{color:var(--muted);font-size:.92rem;line-height:1.7;margin-top:.8rem;max-width:540px;}
+
+/* ─── CATEGORIES ─── */
+#categories{background:var(--gold-pale);}
+.cat-header{text-align:center;margin-bottom:3rem;}
+.cat-header .sec-sub{margin:0 auto;}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;max-width:1100px;margin:0 auto;}
+.cat-card{background:white;padding:1.8rem 1rem;text-align:center;cursor:pointer;border:1px solid transparent;transition:all .25s;border-radius:2px;}
+.cat-card:hover,.cat-card.active{border-color:var(--teal);box-shadow:0 4px 20px rgba(11,110,110,.1);}
+.cat-icon{font-size:2rem;margin-bottom:.7rem;}
+.cat-name{font-size:.82rem;font-weight:600;color:var(--night);letter-spacing:.05em;}
+.cat-count{font-size:.72rem;color:var(--muted);margin-top:.2rem;}
+
+/* ─── EXCURSIONS GRID ─── */
+#excursions{background:white;}
+.exc-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
+.sort-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+.sort-label{font-size:.75rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.sort-btn{border:1px solid var(--border);background:white;padding:.35rem .9rem;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--muted);transition:all .2s;}
+.sort-btn.active,.sort-btn:hover{background:var(--teal);border-color:var(--teal);color:white;}
+.exc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;max-width:1300px;}
+.exc-card{background:white;border:1px solid var(--border);overflow:hidden;transition:all .3s;cursor:pointer;}
+.exc-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.1);border-color:var(--teal);}
+.exc-img{height:195px;background-size:cover;background-position:center;position:relative;}
+.exc-badge{position:absolute;top:.8rem;left:.8rem;background:var(--gold);color:var(--night);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .7rem;font-weight:700;}
+.exc-fav{position:absolute;top:.8rem;right:.8rem;width:32px;height:32px;background:white;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.exc-dur{position:absolute;bottom:.8rem;right:.8rem;background:rgba(15,28,28,.82);color:white;font-size:.72rem;padding:.25rem .7rem;letter-spacing:.05em;}
+.exc-body{padding:1.2rem;}
+.exc-provider{font-size:.72rem;color:var(--teal);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.3rem;}
+.exc-title{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--night);margin-bottom:.4rem;line-height:1.3;}
+.exc-desc{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem;}
+.exc-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.exc-tag{background:var(--teal-light);color:var(--teal);font-size:.65rem;padding:.2rem .6rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
+.exc-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.9rem;}
+.exc-price-label{font-size:.68rem;color:var(--muted);}
+.exc-price{font-size:1.25rem;font-weight:700;color:var(--teal);}
+.exc-price small{font-size:.72rem;color:var(--muted);font-weight:400;}
+.exc-stars{font-size:.78rem;color:var(--gold);letter-spacing:.05em;}
+.btn-book{background:var(--teal);color:white;border:none;padding:.48rem 1.1rem;font-size:.78rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.btn-book:hover{background:var(--teal-mid);}
+
+/* ─── HOW IT WORKS ─── */
+#how{background:var(--night);color:white;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1100px;margin:0 auto;}
+.how-col-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(200,151,58,.2);}
+.how-steps{display:flex;flex-direction:column;gap:1.6rem;}
+.how-step{display:flex;gap:1rem;align-items:flex-start;}
+.step-num{width:36px;height:36px;min-width:36px;background:rgba(200,151,58,.12);border:1px solid rgba(200,151,58,.3);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;color:var(--gold);font-size:1rem;}
+.step-body h4{font-size:.9rem;font-weight:600;color:white;margin-bottom:.3rem;}
+.step-body p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.65;}
+
+/* ─── PROVIDER CTA ─── */
+#provider-cta{background:linear-gradient(135deg,var(--teal) 0%,var(--night) 100%);color:white;text-align:center;}
+#provider-cta .sec-title{color:white;}
+#provider-cta .sec-sub{color:rgba(255,255,255,.7);margin:0 auto 2.5rem;}
+.cta-features{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-bottom:3rem;}
+.cta-feat{display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:rgba(255,255,255,.85);}
+.cta-feat-icon{font-size:1.1rem;}
+
+/* ─── MODAL OVERLAY ─── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:1rem;}
+.overlay.open{display:flex;}
+.modal{background:white;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .3s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted);z-index:10;}
+.modal-header{padding:2.5rem 2.5rem 1.5rem;border-bottom:1px solid var(--border);}
+.modal-header h2{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--night);}
+.modal-header p{color:var(--muted);font-size:.85rem;margin-top:.4rem;}
+.modal-body{padding:2rem 2.5rem;}
+.modal-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:1.8rem;}
+.modal-tab{padding:.7rem 1.5rem;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:none;background:none;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.modal-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* ─── FORM ELEMENTS ─── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.form-group{display:flex;flex-direction:column;gap:.4rem;}
+.form-group.span2{grid-column:1/-1;}
+.form-group label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+.form-group input,.form-group select,.form-group textarea{border:1px solid var(--border);padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s;background:var(--white);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--teal);}
+.form-group textarea{resize:vertical;min-height:90px;}
+.form-note{font-size:.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;background:var(--gold-pale);padding:.8rem 1rem;border-left:3px solid var(--gold);}
+.form-submit{width:100%;background:var(--teal);color:white;border:none;padding:.95rem;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .25s;margin-top:.5rem;}
+.form-submit:hover{background:var(--teal-mid);}
+.success-box{display:none;background:#e8f5e9;border:1px solid #a5d6a7;color:var(--green);padding:1rem 1.2rem;margin-top:1rem;font-size:.88rem;text-align:center;}
+.policy-box{background:var(--teal-light);border-left:3px solid var(--teal);padding:.8rem 1rem;font-size:.78rem;color:var(--teal);margin-bottom:1rem;line-height:1.6;}
+
+/* ─── BOOKING DETAIL MODAL ─── */
+.detail-img{height:240px;background-size:cover;background-position:center;position:relative;}
+.detail-body{padding:2rem 2.5rem;}
+.detail-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--night);margin-bottom:.4rem;}
+.detail-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.detail-meta-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--muted);}
+.detail-section{margin-bottom:1.2rem;}
+.detail-section h4{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;font-weight:600;}
+.detail-section p{font-size:.87rem;color:var(--text);line-height:1.7;}
+.detail-policy{background:var(--gold-pale);padding:.9rem 1rem;border-left:3px solid var(--gold);font-size:.8rem;color:var(--text);line-height:1.65;margin-bottom:1.2rem;}
+.price-summary{background:var(--teal-light);padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.price-breakdown{font-size:.8rem;color:var(--muted);}
+.price-total{font-size:1.3rem;font-weight:700;color:var(--teal);}
+
+/* ─── FOOTER ─── */
+footer{background:var(--night);color:rgba(255,255,255,.45);padding:3rem 8% 2rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
+.footer-brand .logo{font-size:1.4rem;display:inline-block;margin-bottom:.8rem;}
+.footer-brand p{font-size:.82rem;line-height:1.7;max-width:260px;}
+.footer-col h5{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.footer-col a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.82rem;transition:color .2s;}
+.footer-col a:hover{color:var(--gold);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.78rem;}
+.footer-langs{display:flex;gap:.8rem;}
+.footer-lang{color:rgba(255,255,255,.35);font-size:.72rem;letter-spacing:.1em;cursor:pointer;transition:color .2s;}
+.footer-lang:hover{color:var(--gold);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}
+  .nav-center{display:none;}
+  .lang-bar{padding:.35rem 1.5rem;}
+  .hero{padding-left:5%;padding-right:5%;}
+  .hero-search{flex-direction:column;}
+  .search-field{border-right:none;border-bottom:1px solid var(--border);}
+  .how-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  section{padding:4rem 5%;}
+  .form-grid{grid-template-columns:1fr;}
+  .modal-body{padding:1.5rem;}
+  .modal-header{padding:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Explor<span>eza</span></a>
+  <ul class="nav-center">
+    <li><a href="#excursions">Excursions</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#reviews">Reviews</a></li><li><a href="#provider-cta">List Your Service</a></li>
+  </ul>
+  <div class="nav-right">
+    <p><a href="#" class="btn-ghost" onClick="openModal('loginModal');return false;">Sign In</a>&nbsp;<strong>Join our team </strong></p>
+  </div>
+</nav>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang(this)">EN</button>
+  <button class="lang-btn" onclick="setLang(this)">FR</button>
+  <button class="lang-btn" onclick="setLang(this)">AR</button>
+  <button class="lang-btn" onclick="setLang(this)">ES</button>
+  <button class="lang-btn" onclick="setLang(this)">PL</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <p>🌍 Agadir, Morocco's #1 Excursion, touristic and accomodation</p>
+    <p> services Marketplace</p>
+  </div>
+  <h1>Experience<br>Morocco <em>Like<br>a Local</em></h1>
+  <p class="hero-sub">Browse hand-picked excursions and services from trusted local providers. Transparent pricing, no hidden fees, book in minutes and stay in control of your plans.</p>
+  <div class="hero-actions">
+    <a href="#excursions" class="btn-primary">Explore Excursions</a>
+    <a href="#" class="btn-secondary" onclick="openModal('providerModal');return false;">I'm a Provider →</a>
+  </div>
+  <div class="hero-search">
+    <div class="search-field">
+      <label>Where</label>
+      <input type="text" placeholder="Agadir, Atlas Mountains, Essaouira…">
+    </div>
+    <div class="search-field">
+      <label>Excursion Type</label>
+      <select>
+        <option>All Types</option>
+        <option>Adventure</option>
+        <option>Cultural</option>
+        <option>Nature & Wildlife</option>
+        <option>Day Trips</option>
+        <option>Water Sports</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Date</label>
+      <input type="date">
+    </div>
+    <div class="search-field">
+      <label>Guests</label>
+      <input type="number" min="1" placeholder="2 guests">
+    </div>
+    <button class="search-submit">Search</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Verified Providers</div></div>
+  <div class="stat"><div class="stat-n">99+</div><div class="stat-l">Unique Excursions</div></div>
+  <div class="stat"><div class="stat-n">5</div><div class="stat-l">Languages</div></div>
+  <div class="stat"><div class="stat-n">0%</div><div class="stat-l">Hidden Fees</div></div>
+  <div class="stat"><div class="stat-n">24h</div><div class="stat-l">WhatsApp Support</div></div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="cat-header">
+    <div class="sec-label">Browse by Category</div>
+    <h2 class="sec-title">What are you <em>looking for?</em></h2>
+    <p class="sec-sub">From adrenaline adventures to cultural discoveries, hidden gems and culinary experiences — Exploreza has the perfect experience for every traveller.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card active" onclick="filterExc('all',this)"><div class="cat-icon">🌍</div><div class="cat-name">All</div><div class="cat-count">99+ trips</div></div>
+    <div class="cat-card" onclick="filterExc('adventure',this)"><div class="cat-icon">🏔️</div><div class="cat-name">Adventure</div><div class="cat-count">15+ trips</div></div>
+    <div class="cat-card" onclick="filterExc('cultural',this)"><div class="cat-icon">🕌</div><div class="cat-name">Cultural</div><div class="cat-count">
+      <p>25+ trips</p>
+    </div></div>
+    <div class="cat-card" onclick="filterExc('nature',this)"><div class="cat-icon">🦩</div><div class="cat-name">Nature</div><div class="cat-count">25+ trips</div></div>
+    <div class="cat-card" onclick="filterExc('daytrip',this)"><div class="cat-icon">🚌</div><div class="cat-name">Day Trips</div><div class="cat-count">19+ trips</div></div>
+    <div class="cat-card" onclick="filterExc('water',this)"><div class="cat-icon">🏄</div><div class="cat-name">Water Sports</div><div class="cat-count">
+      <p>10+ trips</p>
+    </div></div>
+<div class="cat-card" onclick="filterExc('wellness',this)"><div class="cat-icon">🧖</div><div class="cat-name">Wellness</div><div class="cat-count">3+ trips</div></div>
+  </div>
+</section>
+
+<!-- EXCURSIONS -->
+<section id="excursions">
+  <div class="exc-header">
+    <div>
+      <div class="sec-label">Available Now</div>
+      <h2 class="sec-title">Featured <em>Excursions</em></h2>
+    </div>
+    <div class="sort-row">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn active">Popular</button>
+      <button class="sort-btn">Price ↑</button>
+      <button class="sort-btn">Price ↓</button>
+      <button class="sort-btn">Duration</button>
+    </div>
+  </div>
+  <div class="exc-grid" id="excGrid">
+
+    <div class="exc-card" data-cat="adventure nature" data-price="540">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1548019979-e9de952b5e88?w=600&q=80')">
+        <div class="exc-badge">Adventure</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Full Day · 10h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Atlas Explorers</div>
+        <h3 class="exc-title">Paradise Valley & Atlas Mountains</h3>
+        <p class="exc-desc">Swim in turquoise natural pools, hike dramatic limestone canyons, and enjoy a traditional Berber breakfast in the Atlas foothills.</p>
+        <div class="exc-tags"><span class="exc-tag">Hotel Pickup</span><span class="exc-tag">Lunch Included</span><span class="exc-tag">Guide</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">540 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 4.9</div></div>
+          <button class="btn-book" onclick="openDetail('Paradise Valley & Atlas Mountains','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80','Full Day (10h)','Adventure','540','450','Atlas Explorers','Swim in turquoise natural pools, hike dramatic limestone canyons, enjoy a Berber breakfast, and take in spectacular views of the High Atlas. Hotel pickup included. Upgrade for professional photos.','Free cancellation up to 48h before. 50% charge within 48h. No refund within 24h.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="cultural" data-price="240">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=600&q=80')">
+        <div class="exc-badge">Cultural</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Half Day · 4h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Agadir Heritage Tours</div>
+        <h3 class="exc-title">Agadir City Discovery Tour</h3>
+        <p class="exc-desc">Explore the iconic Kasbah fortress, discover the bustling Souk El Had, visit the argan oil cooperative, and stroll the marina promenade.</p>
+        <div class="exc-tags"><span class="exc-tag">Hotel Pickup</span><span class="exc-tag">English Guide</span><span class="exc-tag">A/C Van</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">249 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 4.8</div></div>
+          <button class="btn-book" onclick="openDetail('Agadir City Discovery Tour','https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=800&q=80','Half Day (4h)','Cultural','240','200','Agadir Heritage Tours','Visit the Kasbah Oufella fortress with panoramic city views, explore the medina souks, learn about argan oil production at a cooperative, and stroll along the modern marina. Air-conditioned minivan with hotel pickup.','Free cancellation up to 24h before. No refund within 24h.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="adventure" data-price="384">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1509233725247-49e657c54213?w=600&q=80')">
+        <div class="exc-badge">Adventure</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ 2–3 Hours</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Dunes Rush Co.</div>
+        <h3 class="exc-title">Quad Biking in the Sand Dunes</h3>
+        <p class="exc-desc">Race through golden dunes just 20 minutes from Agadir. Suitable for all levels — full safety gear, helmet, and instructor provided.</p>
+        <div class="exc-tags"><span class="exc-tag">Beginner Friendly</span><span class="exc-tag">Safety Gear</span><span class="exc-tag">Photos</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">451 MAD <small>/ person</small></div><div class="exc-stars">★★★★☆ 4.6</div></div>
+          <button class="btn-book" onclick="openDetail('Quad Biking in the Sand Dunes','https://images.unsplash.com/photo-1542401886-65d6c61db217?w=800&q=80','2–3 Hours','Adventure','384','320','Dunes Rush Co.','Ride powerful quad bikes through the iconic sand dunes near Agadir. Our experienced instructors will brief you thoroughly before the ride. Full safety equipment included. All experience levels welcome — from first-timers to seasoned riders.','Free cancellation up to 24h before. No refund within 24h of the tour.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="daytrip cultural" data-price="600">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1624802746702-60ca95bdb605?w=600&q=80')">
+        <div class="exc-badge">Day Trip</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Full Day · 12h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Coast & Culture Tours</div>
+        <h3 class="exc-title">Essaouira Full Day Trip</h3>
+        <p class="exc-desc">Explore the UNESCO-listed coastal medina of Essaouira — vibrant blue streets, fresh Atlantic seafood, and authentic Moroccan culture.</p>
+        <div class="exc-tags">
+          <p><span class="exc-tag">UNESCO Site</span><span class="exc-tag">Lunch Stop included &nbsp; &nbsp; &nbsp; Hotel Pickup</span></p>
+        </div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">750 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 4.9</div></div>
+          <button class="btn-book" onclick="openDetail('Essaouira Full Day Trip','https://images.unsplash.com/photo-1570173950000-c43781069c6e?w=800&q=80','Full Day (12h)','Day Trip','600','500','Coast & Culture Tours','Discover the UNESCO world heritage city of Essaouira with its iconic blue medina walls, vibrant souks, fresh seafood market, and the beautiful Atlantic coastline. Return hotel transfers included. Free time for lunch and shopping.','Free cancellation up to 48h before departure. 50% refund 24–48h before. No refund within 24h.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="nature" data-price="324">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1607462109225-6b64ae2dd3cb?w=600&q=80')">
+        <div class="exc-badge">Nature</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Full Day · 12h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Wild Morocco</div>
+        <h3 class="exc-title">Souss-Massa National Park</h3>
+        <p class="exc-desc">Spot rare Northern Bald Ibis, flamingos, and diverse coastal wildlife in one of Africa's most important bird sanctuaries.</p>
+        <div class="exc-tags"><span class="exc-tag">Bird Watching</span><span class="exc-tag">Nature Guide</span><span class="exc-tag">Binoculars</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">804 MAD <small>/ person</small></div><div class="exc-stars">★★★★☆ 4.7</div></div>
+          <button class="btn-book" onclick="openDetail('Souss-Massa National Park','https://images.unsplash.com/photo-1548263594-a71ea65a8598?w=800&q=80','Half Day (5h)','Nature','324','270','Wild Morocco','Walk the dune paths to the Oued Massa estuary, spot flamingos, rare Northern Bald Ibis and 270+ other species. Certified nature guide with binoculars provided. Small groups for the best wildlife experience.','Free cancellation up to 24h before. No refund for no-shows.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="daytrip cultural" data-price="720">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1539020140153-e479b8ef4d93?w=600&q=80')">
+        <div class="exc-badge">Day Trip</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Full Day · 14h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Morocco Gateway</div>
+        <h3 class="exc-title">Marrakech Guided Day Trip</h3>
+        <p class="exc-desc">Experience the magic of Marrakech — Jemaa el-Fna square, the ancient souks, the Koutoubia Mosque, and the beautiful Bahia Palace.</p>
+        <div class="exc-tags"><span class="exc-tag">Licensed Guide</span><span class="exc-tag">A/C Transport</span><span class="exc-tag">Skip Line</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">820 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 4.8</div></div>
+          <button class="btn-book" onclick="openDetail('Marrakech Guided Day Trip','https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?w=800&q=80','Full Day (14h)','Day Trip','720','600','Morocco Gateway','Early departure from Agadir for a full day in Marrakech. Visit Jemaa el-Fna, wander the labyrinthine souks, see the Koutoubia Mosque and Bahia Palace. Licensed English-speaking guide. Air-conditioned minibus. Hotel pickup included.','Free cancellation up to 72h before. 50% refund 24–72h before. No refund within 24h.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="water adventure" data-price="480">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1531722569936-825d4eeff943?w=600&q=80')">
+        <div class="exc-badge">Water Sports</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Half Day · 3h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Taghazout Surf School</div>
+        <h3 class="exc-title">Surf Lesson in Taghazout</h3>
+        <p class="exc-desc">Learn to surf on Morocco's best beginner-friendly waves in Taghazout, Africa's surf capital. Board, wetsuit, and instructor included.</p>
+        <div class="exc-tags"><span class="exc-tag">All Levels</span><span class="exc-tag">Equipment</span><span class="exc-tag">Certified Instructor</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">680 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 4.9</div></div>
+          <button class="btn-book" onclick="openDetail('Surf Lesson in Taghazout','https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80','Half Day (3h)','Water Sports','480','400','Taghazout Surf School','Taghazout is one of Africa\'s best surf spots. Our certified ISA instructors will get you standing on the board in your very first lesson. Surfboard and wetsuit included. All levels welcome — from complete beginners to improvers.','Free cancellation up to 24h before. No refund if weather conditions are not the cause of cancellation within 24h.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exc-card" data-cat="adventure nature" data-price="420">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1548625149-720754973a63?w=600&q=80')">
+        <div class="exc-badge">Adventure</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Full Day · 8h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Legzira Adventures</div>
+        <h3 class="exc-title">Legzira Beach & Mini Sahara</h3>
+        <p class="exc-desc">Discover the breathtaking natural arched cliffs of Legzira beach then head into the off-road mini Sahara for a 4x4 adventure.</p>
+        <div class="exc-tags"><span class="exc-tag">4x4 Off-Road</span><span class="exc-tag">Beach</span><span class="exc-tag">Photography</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">
+            <p>720 MAD <small>/ person</small></p>
+          </div><div class="exc-stars">★★★★☆ 4.7</div></div>
+          <button class="btn-book" onclick="openDetail('Legzira Beach & Mini Sahara','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80','Full Day (8h)','Adventure','420','350','Legzira Adventures','See the spectacular natural stone arches of Legzira beach — one of Morocco\'s most photographed landscapes — then explore the mini Sahara desert dunes by 4x4. Packed lunch and water included. Hotel pickup available.','Free cancellation up to 48h before. No refund within 48h of departure.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="exc-card" data-cat="wellness" data-price="720">
+      <div class="exc-img" style="background-image:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80')">
+        <div class="exc-badge">Wellness</div>
+        <div class="exc-fav">♡</div>
+        <div class="exc-dur">⏱ Half Day · 3h</div>
+      </div>
+      <div class="exc-body">
+        <div class="exc-provider">Agadir Wellness Spa</div>
+        <h3 class="exc-title">Traditional Hammam & Relaxing Massage</h3>
+        <p class="exc-desc">Indulge in a 1-hour authentic Moroccan hammam ritual followed by a 1-hour full body relaxing massage, mint tea break and hotel transfer included.</p>
+        <div class="exc-tags"><span class="exc-tag">Hotel Transfer</span><span class="exc-tag">Mint Tea</span><span class="exc-tag">Private Room</span></div>
+        <div class="exc-footer">
+          <div><div class="exc-price-label">From</div><div class="exc-price">720 MAD <small>/ person</small></div><div class="exc-stars">★★★★★ 5.0</div></div>
+          <button class="btn-book" onclick="openDetail('Traditional Hammam & Relaxing Massage','https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80','Half Day (3h)','Wellness','720','600','Agadir Wellness Spa','Begin with a 1-hour traditional Moroccan hammam experience using black soap (savon beldi) and kessa exfoliation glove, followed by a 1-hour full-body relaxing massage with argan oil. A refreshing mint tea break is included. Hotel pickup and drop-off included. Private room for couples or individuals.','Free cancellation up to 24h before. No refund within 24h of the appointment.')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="how-grid">
+    <div>
+      <div class="sec-label">For Travellers</div>
+      <h2 class="sec-title" style="color:white;">How to <em>Book</em></h2>
+      <div class="how-steps" style="margin-top:2rem;">
+        <div class="how-step"><div class="step-num">1</div><div class="step-body"><h4>Browse & Choose</h4><p>Explore excursions by category, duration, or price. Read full details, policies, and what's included.</p></div></div>
+        <div class="how-step"><div class="step-num">2</div><div class="step-body"><h4>Send a Booking Request</h4><p>Fill in your name, date, group size, and any special needs. Takes less than 2 minutes.</p></div></div>
+        <div class="how-step"><div class="step-num">3</div><div class="step-body"><h4>Receive Confirmation</h4><p>Our team contacts you on WhatsApp within 2 hours to confirm your booking and answer any questions.</p></div></div>
+        <div class="how-step"><div class="step-num">4</div><div class="step-body"><h4>Enjoy Your Adventure</h4><p>Show up, explore Morocco, and create memories that last a lifetime. It's that simple.</p></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label">For Providers</div>
+      <h2 class="sec-title" style="color:white;">How to <em>List</em></h2>
+      <div class="how-steps" style="margin-top:2rem;">
+        <div class="how-step"><div class="step-num">1</div><div class="step-body"><h4>Create Your Profile</h4><p>Sign up, fill in your business details, upload photos, and describe your excursions. Completely free to list.</p></div></div>
+        <div class="how-step"><div class="step-num">2</div><div class="step-body"><h4>Set Your Prices</h4><p>Enter your base price per person. Exploreza adds a transparent 20% service fee — customers see the final price clearly.</p></div></div>
+        <div class="how-step"><div class="step-num">3</div><div class="step-body"><h4>Receive Bookings</h4><p>We contact you for every booking request. You confirm availability and we handle the customer communication.</p></div></div>
+        <div class="how-step"><div class="step-num">4</div><div class="step-body"><h4>Get Paid</h4><p>Receive payment after each completed excursion, minus the 20% Exploreza commission. Transparent and simple.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVIDER CTA -->
+<section id="provider-cta">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <div class="sec-label">Are You a Local Provider?</div>
+    <h2 class="sec-title" style="color:white;">Grow Your Business<br>with <em>Exploreza</em></h2>
+    <p class="sec-sub" style="color:rgba(255,255,255,.7);margin:0 auto 2rem;">Join Agadir's fastest-growing excursion marketplace. Reach thousands of tourists — for free. You only pay when you earn.</p>
+    <div class="cta-features">
+      <div class="cta-feat"><span class="cta-feat-icon">✅</span> Free to list</div>
+      <div class="cta-feat"><span class="cta-feat-icon">✅</span> No monthly fees</div>
+      <div class="cta-feat"><span class="cta-feat-icon">✅</span> 20% only on bookings</div>
+      <div class="cta-feat"><span class="cta-feat-icon">✅</span> Full control over your listings</div>
+    </div>
+    <button class="btn-primary" onclick="openModal('providerModal')">Create Provider Profile — It's Free</button>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" style="background:var(--gold-pale);">
+  <div style="text-align:center;max-width:600px;margin:0 auto 3.5rem;">
+    <div class="sec-label">Traveller Stories</div>
+    <h2 class="sec-title">What Our <em>Guests Say</em></h2>
+    <p class="sec-sub" style="margin:0 auto;">Real experiences from travellers who discovered Morocco with Exploreza.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto;">
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">The Paradise Valley trip was absolutely magical. Our guide was knowledgeable, funny, and made us feel completely safe. The natural pools are breathtaking. Best day of our Morocco trip by far!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--gold));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">SE</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">Sophie E.</div><div style="font-size:.75rem;color:var(--muted);">🇬🇧 United Kingdom · Paradise Valley Trip</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">Réservé l'excursion Essaouira via Exploreza — tout était parfait. Le transport, le guide, le temps libre dans la médina. Je recommande vraiment ce service à tous les touristes à Agadir!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,var(--teal));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">ML</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">Marie-Laure D.</div><div style="font-size:.75rem;color:var(--muted);">🇫🇷 France · Essaouira Day Trip</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">Hammam experience was incredibly relaxing and authentic. The team was professional and welcoming. The mint tea after the massage was the cherry on top. A must-do in Agadir!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#8E44AD,var(--gold));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">AK</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">Anna K.</div><div style="font-size:.75rem;color:var(--muted);">🇵🇱 Poland · Hammam & Massage</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">¡La excursión de quad fue increíble! Las dunas de arena son espectaculares y el guía fue muy atento. Confirmaron nuestra reserva por WhatsApp en menos de una hora. ¡Totalmente recomendado!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#C0392B,var(--gold));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">CR</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">Carlos R.</div><div style="font-size:.75rem;color:var(--muted);">🇪🇸 Spain · Quad Biking Dunes</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">Took my family to the Souss-Massa park — the kids were amazed by the flamingos. Yassine was incredibly helpful on WhatsApp and sorted everything within minutes. Seamless experience!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#27AE60);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">JM</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">James M.</div><div style="font-size:.75rem;color:var(--muted);">🇺🇸 United States · Souss-Massa Park</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border:1px solid var(--border);position:relative;">
+      <div style="font-size:1.8rem;color:var(--gold);margin-bottom:.8rem;">❝</div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:1.2rem;">Surfstunde in Taghazout war ein Traum! Unser Instructor war geduldig und professionell. Nach nur 2 Stunden konnte ich bereits auf den Wellen stehen. Unbedingt buchen!</p>
+      <div style="display:flex;align-items:center;gap:.8rem;border-top:1px solid var(--border);padding-top:1rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#2980B9,var(--night));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">LB</div>
+        <div><div style="font-weight:600;font-size:.88rem;color:var(--night);">Lukas B.</div><div style="font-size:.75rem;color:var(--muted);">🇩🇪 Germany · Surf Lesson Taghazout</div></div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.85rem;">★★★★★</div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center;margin-top:2.5rem;">
+    <div style="display:inline-flex;align-items:center;gap:.5rem;background:white;padding:1rem 2rem;border:1px solid var(--border);">
+      <span style="font-size:1.3rem;color:var(--gold);">★★★★★</span>
+      <span style="font-weight:700;font-size:1.1rem;color:var(--night);">4.9</span>
+      <span style="color:var(--muted);font-size:.85rem;">average rating · 120+ verified reviews</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">Explor<span>eza</span></a>
+      <p>Agadir's trusted marketplace for local excursions. Connecting travellers with the best local providers since 2026.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#">Adventure Trips</a></li>
+        <li><a href="#">Cultural Tours</a></li>
+        <li><a href="#">Nature & Wildlife</a></li>
+        <li><a href="#">Day Trips</a></li>
+        <li><a href="#">Water Sports</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Providers</h5>
+      <ul>
+        <li><a href="#" onclick="openModal('providerModal');return false;">List Your Service</a></li>
+        <li><a href="#">Provider Guidelines</a></li>
+        <li><a href="#">Commission Info</a></li>
+        <li><a href="#">Provider Login</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#">How it Works</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="https://wa.me/212600000000">WhatsApp Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Exploreza · Agadir, Morocco · All rights reserved</span>
+    <div class="footer-langs">
+      <span class="footer-lang">EN</span>
+      <span class="footer-lang">FR</span>
+      <span class="footer-lang">AR</span>
+      <span class="footer-lang">ES</span>
+      <span class="footer-lang">PL</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ PROVIDER REGISTRATION MODAL ═══ -->
+<div class="overlay" id="providerModal">
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close" onclick="closeModal('providerModal')">✕</button>
+    <div class="modal-header">
+      <h2>Create Your Provider Profile</h2>
+      <p>Join Exploreza for free. Your listings go live within 24 hours after review.</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchTab('tab-biz',this)">1. Business Info</button>
+        <button class="modal-tab" onclick="switchTab('tab-exc',this)">2. Your Excursion</button>
+        <button class="modal-tab" onclick="switchTab('tab-policy',this)">3. Policies</button>
+      </div>
+
+      <!-- TAB 1: Business -->
+      <div id="tab-biz" class="tab-content active">
+        <div class="form-note">All fields marked with * are required. Your profile will be reviewed by Exploreza before going live.</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Business Name *</label><input type="text" placeholder="e.g. Atlas Explorers"></div>
+          <div class="form-group"><label>Your Full Name *</label><input type="text" placeholder="e.g. Mohammed Ait Benhaddou"></div>
+          <div class="form-group"><label>WhatsApp Number *</label><input type="tel" placeholder="+212 6XX XXX XXX"></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" placeholder="your@email.com"></div>
+          <div class="form-group"><label>City / Area *</label><select><option>Agadir</option><option>Taghazout</option><option>Tiznit</option><option>Taroudant</option><option>Other</option></select></div>
+          <div class="form-group"><label>Years of Experience</label><input type="number" min="0" placeholder="e.g. 5"></div>
+          <div class="form-group span2"><label>Business Description *</label><textarea placeholder="Tell customers what makes your excursions special. Mention your team, vehicles, languages spoken, licenses, etc."></textarea></div>
+          <div class="form-group span2"><label>Languages Spoken by Guides *</label>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.4rem;">
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> English</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox"> French</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox"> Arabic</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox"> Spanish</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox"> Polish</label>
+            </div>
+          </div>
+        </div>
+        <button class="form-submit" onclick="switchTab('tab-exc',document.querySelectorAll('.modal-tab')[1])">Next: Add Your Excursion →</button>
+      </div>
+
+      <!-- TAB 2: Excursion -->
+      <div id="tab-exc" class="tab-content">
+        <div class="policy-box">💡 <strong>Commission info:</strong> You set your base price per person. Exploreza adds 20% on top — customers pay the final price. You receive your base price per completed booking, and pay 20% of it as our service fee.</div>
+        <div class="form-grid">
+          <div class="form-group span2"><label>Excursion Name *</label><input type="text" placeholder="e.g. Paradise Valley Full Day Trip"></div>
+          <div class="form-group"><label>Category *</label><select><option>Adventure</option><option>Cultural</option><option>Nature & Wildlife</option><option>Day Trip</option><option>Water Sports</option></select></div>
+          <div class="form-group"><label>Duration *</label><select><option>1–2 Hours</option><option>Half Day (3–5h)</option><option>Full Day (6–10h)</option><option>Multi-Day</option></select></div>
+          <div class="form-group"><label>Your Base Price per Person (MAD) *</label><input type="number" id="providerPrice" placeholder="e.g. 450" oninput="calcPrice()"></div>
+          <div class="form-group"><label>Price Customer Pays (MAD) — auto-calculated</label><input type="text" id="clientPrice" placeholder="Will calculate automatically" readonly style="background:#f5f5f5;color:var(--teal);font-weight:700;"></div>
+          <div class="form-group"><label>Max Group Size *</label><input type="number" placeholder="e.g. 12"></div>
+          <div class="form-group"><label>Meeting Point / Pickup</label><input type="text" placeholder="e.g. Hotel pickup included, or specify location"></div>
+          <div class="form-group span2"><label>What's Included *</label><textarea placeholder="e.g. Transport, guide, lunch, entrance fees, equipment..."></textarea></div>
+          <div class="form-group span2"><label>Full Excursion Description *</label><textarea style="min-height:120px;" placeholder="Describe the full experience: itinerary, highlights, what customers will see and do..."></textarea></div>
+          <div class="form-group span2"><label>Availability (days available)</label>
+            <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem;">
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Mon</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Tue</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Wed</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Thu</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Fri</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Sat</label>
+              <label style="text-transform:none;letter-spacing:0;font-size:.88rem;display:flex;align-items:center;gap:.4rem;"><input type="checkbox" checked> Sun</label>
+            </div>
+          </div>
+          <div class="form-group span2"><label>Upload Photos (up to 5)</label><input type="file" multiple accept="image/*" style="padding:.6rem .8rem;font-size:.82rem;"></div>
+        </div>
+        <button class="form-submit" onclick="switchTab('tab-policy',document.querySelectorAll('.modal-tab')[2])">Next: Set Policies →</button>
+      </div>
+
+      <!-- TAB 3: Policies -->
+      <div id="tab-policy" class="tab-content">
+        <div class="form-grid">
+          <div class="form-group span2"><label>Cancellation Policy *</label>
+            <select>
+              <option>Free cancellation up to 24h before — no refund within 24h</option>
+              <option>Free cancellation up to 48h before — 50% refund 24–48h — no refund within 24h</option>
+              <option>Free cancellation up to 72h before — no refund within 72h</option>
+              <option>Non-refundable</option>
+              <option>Custom (describe below)</option>
+            </select>
+          </div>
+          <div class="form-group span2"><label>Modification Policy</label><textarea placeholder="e.g. Date changes allowed up to 48h before with no fee. Name changes free of charge."></textarea></div>
+          <div class="form-group span2"><label>What to Bring / Important Notes for Customers</label><textarea placeholder="e.g. Wear comfortable shoes, bring sunscreen, passport not required, min age 6 years..."></textarea></div>
+          <div class="form-group span2"><label>Special Conditions or Restrictions</label><textarea placeholder="e.g. Not suitable for people with back problems. Minimum 2 people required to run the tour."></textarea></div>
+        </div>
+        <div class="form-note" style="margin-top:.5rem;">By submitting, you agree to Exploreza's provider terms. A 20% commission applies to all bookings made through the platform.</div>
+        <button class="form-submit" onclick="submitProvider()">Submit My Profile for Review ✓</button>
+        <div class="success-box" id="providerSuccess">🎉 Thank you! Your provider profile has been submitted. We'll review it and contact you on WhatsApp within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BOOKING REQUEST MODAL ═══ -->
+<div class="overlay" id="bookingModal">
+  <div class="modal" style="max-width:760px;">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <div class="detail-img" id="detailImg"></div>
+    <div class="detail-body">
+      <div id="detailBadge" class="exc-badge" style="margin-bottom:.8rem;display:inline-block;"></div>
+      <h2 class="detail-title" id="detailTitle"></h2>
+      <div class="detail-meta">
+        <div class="detail-meta-item">⏱ <span id="detailDur"></span></div>
+        <div class="detail-meta-item">👤 <span id="detailProvider"></span></div>
+        <div class="detail-meta-item">⭐ 4.8 (verified reviews)</div>
+      </div>
+      <div class="detail-section"><h4>About this Excursion</h4><p id="detailDesc"></p></div>
+      <div class="detail-policy" id="detailPolicy"></div>
+      <div class="price-summary">
+        <div><div class="price-breakdown" id="detailPriceBreak"></div></div>
+        <div class="price-total" id="detailPriceTotal"></div>
+      </div>
+      <h4 style="font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;">Send Booking Request</h4>
+      <div class="form-grid">
+        <div class="form-group"><label>Your Name *</label><input type="text" id="bkName" placeholder="e.g. John Smith"></div>
+        <div class="form-group"><label>WhatsApp / Phone *</label><input type="tel" id="bkPhone" placeholder="+212 or +44..."></div>
+        <div class="form-group"><label>Preferred Date *</label><input type="date" id="bkDate"></div>
+        <div class="form-group"><label>Number of People *</label><input type="number" id="bkPeople" min="1" placeholder="e.g. 2" oninput="updateTotal()"></div>
+        <div class="form-group"><label>Preferred Language</label>
+          <select id="bkLang">
+            <option>English</option><option>French</option><option>Arabic</option><option>Spanish</option><option>Polish</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Pickup Location</label><input type="text" id="bkPickup" placeholder="Hotel name or address"></div>
+        <div class="form-group span2"><label>Special Requests (optional)</label><textarea id="bkNotes" placeholder="Dietary requirements, accessibility needs, children's ages, any questions..."></textarea></div>
+      </div>
+      <button class="form-submit" onclick="submitBooking()">Send Booking Request via WhatsApp</button>
+      <div class="success-box" id="bookingSuccess">✅ Your request is being sent to WhatsApp. We'll confirm within 2 hours!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOGIN MODAL ═══ -->
+<div class="overlay" id="loginModal">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-header">
+      <h2>Sign In</h2>
+      <p>Provider or returning customer login</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:1rem;"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group" style="margin-bottom:1.5rem;"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="form-submit">Sign In</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.82rem;color:var(--muted);">Don't have an account? <a href="#" onclick="closeModal('loginModal');openModal('providerModal');return false;" style="color:var(--teal);font-weight:600;">Register as a Provider</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentPrice = 0;
+
+// ── MODALS ──
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
+
+// ── TABS ──
+function switchTab(tabId, btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── LANGUAGE ──
+function setLang(btn){ document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+
+// ── FILTER ──
+function filterExc(type, el){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.exc-card').forEach(card=>{
+    if(type==='all'||card.dataset.cat.includes(type)){
+      card.style.display='';
+      card.style.animation='up .4s ease both';
+    } else { card.style.display='none'; }
+  });
+}
+
+// ── SORT BUTTONS ──
+document.querySelectorAll('.sort-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ── FAVOURITES ──
+document.querySelectorAll('.exc-fav').forEach(btn=>{
+  btn.addEventListener('click',e=>{ e.stopPropagation(); btn.textContent = btn.textContent==='♡'?'♥':'♡'; btn.style.color=btn.textContent==='♥'?'#e74c3c':''; });
+});
+
+// ── PROVIDER PRICE CALC ──
+function calcPrice(){
+  const base = parseFloat(document.getElementById('providerPrice').value)||0;
+  const client = Math.round(base * 1.2);
+  document.getElementById('clientPrice').value = client ? client+' MAD' : '';
+}
+
+// ── OPEN DETAIL ──
+function openDetail(title, img, dur, type, clientPrice, basePrice, provider, desc, policy){
+  currentPrice = parseFloat(clientPrice);
+  document.getElementById('detailImg').style.backgroundImage=`url('${img}')`;
+  document.getElementById('detailTitle').textContent=title;
+  document.getElementById('detailDur').textContent=dur;
+  document.getElementById('detailBadge').textContent=type;
+  document.getElementById('detailProvider').textContent='by '+provider;
+  document.getElementById('detailDesc').textContent=desc;
+  document.getElementById('detailPolicy').innerHTML='📋 <strong>Cancellation & Modification:</strong> '+policy;
+  document.getElementById('detailPriceBreak').innerHTML='Provider price: '+basePrice+' MAD + Exploreza fee (20%) = <strong>'+clientPrice+' MAD/person</strong>';
+  document.getElementById('detailPriceTotal').textContent=clientPrice+' MAD / person';
+  document.getElementById('bkPeople').value='';
+  document.getElementById('bookingSuccess').style.display='none';
+  openModal('bookingModal');
+  window._currentExcursion=title;
+}
+
+// ── UPDATE TOTAL ──
+function updateTotal(){
+  const n=parseInt(document.getElementById('bkPeople').value)||0;
+  const total=n*currentPrice;
+  document.getElementById('detailPriceTotal').textContent=(total?total+' MAD total':currentPrice+' MAD / person');
+}
+
+// ── SUBMIT BOOKING ──
+function submitBooking(){
+  const name=document.getElementById('bkName').value.trim();
+  const phone=document.getElementById('bkPhone').value.trim();
+  const date=document.getElementById('bkDate').value;
+  const people=document.getElementById('bkPeople').value;
+  if(!name||!phone||!date||!people){ alert('Please fill in all required fields.'); return; }
+  const msg=encodeURIComponent(
+    `Hello Exploreza! I'd like to book an excursion.\n\n`+
+    `Excursion: ${window._currentExcursion||'N/A'}\nName: ${name}\nDate: ${date}\nPeople: ${people}\nLanguage: ${document.getElementById('bkLang').value}\nPickup: ${document.getElementById('bkPickup').value||'TBC'}\nNotes: ${document.getElementById('bkNotes').value||'None'}\n\nTotal: ${document.getElementById('detailPriceTotal').textContent}`
+  );
+  window.open(`https://wa.me/212600000000?text=${msg}`,'_blank');
+  document.getElementById('bookingSuccess').style.display='block';
+}
+
+// ── SUBMIT PROVIDER ──
+function submitProvider(){
+  document.getElementById('providerSuccess').style.display='block';
+  setTimeout(()=>closeModal('providerModal'),3500);
+}
+
+// ── ANIMATE ON SCROLL ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.animation='up .5s ease both'; obs.unobserve(e.target); }});
+},{threshold:.08});
+document.querySelectorAll('.exc-card,.how-step,.cat-card,.stat').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
